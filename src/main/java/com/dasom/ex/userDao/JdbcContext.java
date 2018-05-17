@@ -31,12 +31,18 @@ public class JdbcContext {
 		
 	}
 	
-	public void excuteSql(final String query) throws SQLException{
+	public void excuteSql(final String query,final String...strs) throws SQLException{
 		workWithStatementStrategy(new StatementStrategy() {
 			
 			public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
 				// TODO Auto-generated method stub
-				return c.prepareStatement(query);
+				PreparedStatement ps = c.prepareStatement(query);
+				
+				for(int i = 0; i<strs.length ; i++) {
+					ps.setString((i+1), strs[i].toString());
+				}
+				
+				return ps;
 			}
 		});
 	}

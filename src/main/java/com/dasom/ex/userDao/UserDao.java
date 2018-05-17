@@ -67,19 +67,8 @@ public class UserDao {
 		}	
 	}
 	
-	public void add(final User user) throws SQLException {
-		this.jdbcContext.workWithStatementStrategy(new StatementStrategy() {
-			
-			public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
-				// TODO Auto-generated method stub
-				PreparedStatement ps = c.prepareStatement("insert into users(id,name,password) values(?,?,?)");
-				ps.setString(1, user.getId());
-				ps.setString(2, user.getName());
-				ps.setString(3, user.getPassword());
-				
-				return ps;
-			}
-		});
+	public void add(final User user) throws SQLException {	
+		this.jdbcContext.excuteSql("insert into users(id,name,password) values(?,?,?)", user.getId(), user.getName(), user.getPassword());
 	}
 	
 	public User get(String id) throws SQLException{
