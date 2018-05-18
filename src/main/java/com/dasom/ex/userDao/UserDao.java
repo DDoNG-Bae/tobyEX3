@@ -8,14 +8,20 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.ResultSetExtractor;
 
 public class UserDao {
 	private DataSource dataSource;
 	private JdbcContext jdbcContext;
+	private JdbcTemplate jdbcTemplate;
 	public UserDao() {};
 	
 	public void setDataSource(DataSource dataSource) {
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
 		this.dataSource = dataSource;
 	}
 	
@@ -25,50 +31,28 @@ public class UserDao {
 
 	
 	public void deleteAll() throws SQLException{
-		this.jdbcContext.excuteSql("delete from users");
+		this.jdbcTemplate.update("delete from users");
 	}
 	
 	public int getCount() throws SQLException{
-		Connection c = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		
-		try {
-			c = dataSource.getConnection();
-			ps = c.prepareStatement("select count(*) from users");
-			rs = ps.executeQuery();
-		
-			rs.next();
-			return rs.getInt(1);
-		}catch(SQLException e) {
-			throw e;
-		}finally {
-			if(rs!=null) {
-				try {
-					rs.close();
-				}catch(SQLException e) {
-					
-				}
+		return this.jdbcTemplate.query(new PreparedStatementCreator() {
+			
+			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
+				// TODO Auto-generated method stub
+				return con.prepareStatement("select count(*) from users");
 			}
-			if(ps!=null) {
-				try {
-					ps.close();
-				}catch(SQLException e) {
-					
-				}
+		},new ResultSetExtractor<Integer>() {
+
+			public Integer extractData(ResultSet rs) throws SQLException, DataAccessException {
+				// TODO Auto-generated method stub
+				rs.next();
+				return rs.getInt(1);
 			}
-			if(rs!=null) {
-				try {
-					rs.close();
-				}catch(SQLException e) {
-					
-				}
-			}
-		}	
+		});
 	}
 	
 	public void add(final User user) throws SQLException {	
-		this.jdbcContext.excuteSql("insert into users(id,name,password) values(?,?,?)", user.getId(), user.getName(), user.getPassword());
+		this.jdbcTemplate.update("insert intp users(id,name,password) values(?,?,?)",user.getId(),user.getName(),user.getPassword());
 	}
 	
 	public User get(String id) throws SQLException{
