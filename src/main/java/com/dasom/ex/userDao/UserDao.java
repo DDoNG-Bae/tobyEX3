@@ -34,21 +34,10 @@ public class UserDao {
 		this.jdbcTemplate.update("delete from users");
 	}
 	
+	//Spring 3.2부터 queryforInt/queryforLon 메소드 사용불가
+	//queryForObject로 대체
 	public int getCount() throws SQLException{
-		return this.jdbcTemplate.query(new PreparedStatementCreator() {
-			
-			public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-				// TODO Auto-generated method stub
-				return con.prepareStatement("select count(*) from users");
-			}
-		},new ResultSetExtractor<Integer>() {
-
-			public Integer extractData(ResultSet rs) throws SQLException, DataAccessException {
-				// TODO Auto-generated method stub
-				rs.next();
-				return rs.getInt(1);
-			}
-		});
+		return this.jdbcTemplate.queryForObject("select count(*) from users",Integer.class);
 	}
 	
 	public void add(final User user) throws SQLException {	
