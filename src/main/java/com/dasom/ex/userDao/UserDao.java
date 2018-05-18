@@ -41,7 +41,7 @@ public class UserDao {
 	}
 	
 	public void add(final User user) throws SQLException {	
-		this.jdbcTemplate.update("insert intp users(id,name,password) values(?,?,?)",user.getId(),user.getName(),user.getPassword());
+		this.jdbcTemplate.update("INSERT INTO users(id,name,password) VALUES(?,?,?)", user.getId(),user.getName(),user.getPassword());
 	}
 	
 	public User get(String id) throws SQLException{

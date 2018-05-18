@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.springframework.samples</groupId>
-  <artifactId>tobyEx2</artifactId>
+  <artifactId>tobyEx3</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   
   <properties>
@@ -12,7 +12,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<!-- Spring -->
-		<spring-framework.version>3.2.3.RELEASE</spring-framework.version>
+		<spring-framework.version>4.3.17.RELEASE</spring-framework.version>
 
 		<!-- Hibernate / JPA -->
 		<hibernate.version>4.2.1.Final</hibernate.version>
@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
-			<version>${spring-framework.version}</version>
+			<version>4.3.17.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -80,5 +80,7 @@
 			<artifactId>spring-jdbc</artifactId>
 			<version>4.3.16.RELEASE</version>
 		</dependency>
+		
+		
 	</dependencies>	
 </project>
