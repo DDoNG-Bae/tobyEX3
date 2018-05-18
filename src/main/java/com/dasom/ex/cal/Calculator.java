@@ -7,12 +7,17 @@ import java.io.IOException;
 
 public class Calculator {
 
-	public Integer fileReadTemplate(String filepath,BufferedReaderCallback callback) throws IOException{
+	
+	public <T> T lineReadTemplate(String filepath,LineCallback<T> callback,T initVal) throws IOException{
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(filepath));
-			int ret = callback.doSomthingWithReader(br);
-			return ret;
+			T res = initVal;
+			String line=null;
+			while((line=br.readLine()) != null) {
+				res = callback.doSomethingWithLine(line, res);
+			}
+			return res;
 		}catch(IOException e) {
 			System.out.println(e.getMessage());
 			throw e;
@@ -23,41 +28,42 @@ public class Calculator {
 				}catch(IOException e) {System.out.println(e.getMessage());}
 			}
 		}
-		
 	}
 	
 	public Integer calcMultiply(String filepath) throws IOException {
-		BufferedReaderCallback multiplyCallback = new BufferedReaderCallback() {
+		LineCallback<Integer> multiplyCallback = new LineCallback<Integer>() {
 			
-			public Integer doSomthingWithReader(BufferedReader br) throws IOException {
+			public Integer doSomethingWithLine(String line, Integer value) {
 				// TODO Auto-generated method stub
-				Integer multiply =1;
-				String line = null;
-				while((line=br.readLine())!=null) {
-					multiply*=Integer.valueOf(line);
-				}
-				return multiply;
+				return value*Integer.valueOf(line);
 			}
 		};
 		
-		return fileReadTemplate(filepath, multiplyCallback);
+		return lineReadTemplate(filepath, multiplyCallback, 1);
 	}
 	
 	public Integer calcSum(String filepath) throws IOException {
-		BufferedReaderCallback sumCallback = new BufferedReaderCallback() {
+		LineCallback<Integer> sumCallback = new LineCallback<Integer>() {
 			
-			public Integer doSomthingWithReader(BufferedReader br) throws IOException {
+			public Integer doSomethingWithLine(String line, Integer value) {
 				// TODO Auto-generated method stub
-				Integer sum = 0;
-				String line = null;
-				while((line=br.readLine())!=null) {
-					sum+=Integer.valueOf(line);
-				}
-				return sum;
+				return value+Integer.valueOf(line);
 			}
 		};
 		
-		return fileReadTemplate(filepath, sumCallback);
+		return lineReadTemplate(filepath, sumCallback, 0);
+	}
+	
+	public String concaternate(String filepath) throws IOException{
+		LineCallback<String> concaternateCallback = new LineCallback<String>() {
+			
+			public String doSomethingWithLine(String line, String value) {
+				// TODO Auto-generated method stub
+				return value+line;
+			}
+		};
+		
+		return lineReadTemplate(filepath, concaternateCallback, "");
 	}
 	
 }
