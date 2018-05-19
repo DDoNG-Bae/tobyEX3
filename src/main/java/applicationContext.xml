@@ -13,12 +13,7 @@
 		<property name="password" value="tiger"/>
 	</bean>
 	
-	<bean id="userDao" class = "com.dasom.ex.userDao.UserDao">
-		<property name="dataSource" ref="dataSource"/>
-		<property name="jdbcContext" ref="jdbcContext"/>
-	</bean>
-	
-	<bean id="jdbcContext" class = "com.dasom.ex.userDao.JdbcContext">
+	<bean id="userDao" class = "com.dasom.ex.userDao.UserDaoJdbc">
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
 </beans>
