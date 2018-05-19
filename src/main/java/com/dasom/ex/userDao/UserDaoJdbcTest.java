@@ -33,11 +33,7 @@ public class UserDaoJdbcTest {
 	private User user3;
 	
 	@Before
-	public void setUp() {
-		
-		System.out.println(this.context);
-		System.out.println(this);
-		
+	public void setUp() {		
 		this.user1=new User("test1","test1","test1");
 		this.user2=new User("test2","test2","test2");
 		this.user3=new User("test3","test3","test3");
